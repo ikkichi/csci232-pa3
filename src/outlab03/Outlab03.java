@@ -3,7 +3,7 @@
  * Overview: This program implement different algorithms to find the MST of a graph. 
  *  There are no special instructions for running this program. */
 
-package outlab03;
+package outlab3;
 
 import java.util.*;
 import java.lang.*;
@@ -20,7 +20,7 @@ class Edge implements Comparable<Edge> { //queue for edges
 
 class Cluster{ 
     int parent;
-    int rank;
+    int height;
 }
 
 class Graph{
@@ -57,61 +57,61 @@ class Graph{
 	        int u = find(cluster, x); //C(u)
 	        int v = find(cluster, y); //C(v)
 	        
-	        if (cluster[u].rank < cluster[v].rank){ //if C(u) < C(v)
-	            cluster[u].parent = v;
-	        }
-	        else if (cluster[u].rank > cluster[v].rank){ //if C(u) > C(v)
+	        if (cluster[u].height > cluster[v].height){ //if C(u) > C(v)
 	            cluster[v].parent = u;
+	        }
+	        else if (cluster[u].height < cluster[v].height){ //if C(u) < C(v)
+	            cluster[u].parent = v;
 	        }
 	        else{ //if C(u) = C(v)
 	            cluster[v].parent = u;
-	            cluster[u].rank++;
+	            cluster[u].height++;
 	        }
 	    }
 }
 
-public class outlab03 {
+public class Outlab03 {
 	public static void main(String args[]){ 
 		 int V = 6;  // Number of vertices in graph
 	     int E = 8;  // Number of edges in graph
 	     Graph graph = new Graph(V, E);
 	 
-	        // add edge 0-1
+	        // add edge 01
 	        graph.edges[0].u = 0;
 	        graph.edges[0].v = 1;
 	        graph.edges[0].weight = 5;
 	 
-	        // add edge 0-3
+	        // add edge 03
 	        graph.edges[1].u = 0;
 	        graph.edges[1].v = 3;
 	        graph.edges[1].weight = 2;
 	 
-	        // add edge 0-4
+	        // add edge 04
 	        graph.edges[2].u = 0;
 	        graph.edges[2].v = 4;
 	        graph.edges[2].weight = 7;
 	 
-	        // add edge 1-2
+	        // add edge 12
 	        graph.edges[3].u = 1;
 	        graph.edges[3].v = 2;
 	        graph.edges[3].weight = 6;
 	 
-	        // add edge 2-4
+	        // add edge 24
 	        graph.edges[4].u = 2;
 	        graph.edges[4].v = 4;
 	        graph.edges[4].weight = 8;
 	        
-	        //add edge 2-5
+	        //add edge 25
 	        graph.edges[5].u = 2;
 	        graph.edges[5].v = 5;
 	        graph.edges[5].weight = 3;
 	        
-	        //add edge 3-4
+	        //add edge 34
 	        graph.edges[6].u = 3;
 	        graph.edges[6].v = 4;
 	        graph.edges[6].weight = 4;
 	        
-	        //add edge 4-5
+	        //add edge 45
 	        graph.edges[7].u = 4;
 	        graph.edges[7].v = 5;
 	        graph.edges[7].weight = 5;
@@ -132,7 +132,7 @@ public class outlab03 {
 	        //Define an elementary cluster C(v)={v} 
 	        for (char v = 0; v < G.V; ++v){
 	            cluster[v].parent = v;
-	            cluster[v].rank = 0;
+	            cluster[v].height = 0;
 	        }
 	        int x = 0;
 	        int edge = 0; 
