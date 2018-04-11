@@ -3,7 +3,7 @@
  * Overview: This program implement different algorithms to find the MST of a graph. 
  *  There are no special instructions for running this program. */
 
-package outlab3;
+package outlab03;
 
 import java.util.*;
 import java.lang.*;
@@ -21,29 +21,7 @@ class Edge implements Comparable<Edge> { //queue for edges
 class Cluster{ 
     int parent;
     int height;
-}
-
-class Graph{
-	static int V; //number of vertices
-	int E; //number of edges 
-	static Edge edges[]; 
-	
-    public Graph(int n, int m) {
-        V=n; //number of vertices 
-        E=m; //number of edges
-        edges = new Edge[E]; 
-        for(int x = 0; x < E; ++x){
-        	edges[x] = new Edge(); 
-        }
-    }
-    //get value of V
-	public int V(){
-		return V;
-	}
-	//get value of E
-	public int E(){
-		return E;
-	}
+    
 	//get cluster
 	static int find(Cluster clusters[], int x){
 	    if (clusters[x].parent != x){
@@ -68,6 +46,29 @@ class Graph{
 	            cluster[u].height++;
 	        }
 	    }
+}
+
+class Graph{
+	static int V; //number of vertices
+	int E; //number of edges 
+	static Edge edges[]; 
+	
+    public Graph(int n, int m) {
+        V=n; //number of vertices 
+        E=m; //number of edges
+        edges = new Edge[E]; 
+        for(int x = 0; x < E; ++x){
+        	edges[x] = new Edge(); 
+        }
+    }
+    //get value of V
+	public int V(){
+		return V;
+	}
+	//get value of E
+	public int E(){
+		return E;
+	}
 }
 
 public class Outlab03 {
@@ -139,13 +140,13 @@ public class Outlab03 {
 	        while (edge < G.V - 1){
 	            Edge next_edge = new Edge();
 	            next_edge = G.edges[x++];
-	            int y = G.find(cluster, next_edge.u); //C(u)
-	            int z = G.find(cluster, next_edge.v); //C(v)
+	            int y = Cluster.find(cluster, next_edge.u); //C(u)
+	            int z = Cluster.find(cluster, next_edge.v); //C(v)
 	            if (y != z){ //if C(u) != C(v)
 	            	//add edge to Tree
 	                T[edge++] = next_edge;
 	                //Merge C(u) and C(v) into one cluster
-	                G.Merge(cluster, y, z);
+	                Cluster.Merge(cluster, y, z);
 	            }
 	        }
 	        //print out the results 
