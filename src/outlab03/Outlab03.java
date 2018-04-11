@@ -3,86 +3,23 @@ package outlab03;
 import java.util.Scanner;
 import java.util.*;
 import java.lang.*;
-import java.io.*;
 
     /*
     Authors: Mariell Korringa, Elizabeth Hamaoka, Rachel Angelsberg
     Date: 10 April 2018
     Overview: This program implements three different algorithms to find the MST 
-        of a graph. There are no special instructions for running this program.
+        of a graph.
     Notes: 
         - algorithm programmers:
             - Kruskal's -> Marielle
             - Prim's -> Lizzy
             - Floyd-Warshall -> Rachel
-        - needs to use user input -- the graph.csv file has the adjacency matrix 
-            used in Prim's algorithm
+        - needs to use user input as we couldn't get the file input to work 
+            properly
     */
 
 public class Outlab03 {
     static Scanner scan;
-
-    class Edge implements Comparable<Edge> { //queue for edges 
-        int u; //start point
-        int v; //end point
-        int weight; //weight of edge
-        public int compareTo(Edge compareEdge) {
-            return this.weight-compareEdge.weight;
-        }
-    }
-
-    class Cluster{ 
-        int parent;
-        int height;
-
-            //get cluster
-            public static int find(Cluster clusters[], int x){
-                if (clusters[x].parent != x){
-                    clusters[x].parent = find(clusters, clusters[x].parent);
-                }
-                return clusters[x].parent;
-            }
-
-            //Merge two clusters together
-             public static void Merge(Cluster cluster[], int x, int y){
-                int u = find(cluster, x); //C(u)
-                int v = find(cluster, y); //C(v)
-
-                if (cluster[u].height > cluster[v].height){ //if C(u) > C(v)
-                    cluster[v].parent = u;
-                }
-                else if (cluster[u].height < cluster[v].height){ //if C(u) < C(v)
-                    cluster[u].parent = v;
-                }
-                else{ //if C(u) = C(v)
-                    cluster[v].parent = u;
-                    cluster[u].height++;
-                }
-            }
-        }
-
-        class Graph{
-                static int V; //number of vertices
-                int E; //number of edges 
-                static Edge edges[]; 
-
-            public Graph(int n, int m) {
-                V=n; //number of vertices 
-                E=m; //number of edges
-                edges = new Edge[E]; 
-                for(int x = 0; x < E; ++x){
-                        edges[x] = new Edge(); 
-                }
-            }
-            //get value of V
-                public int V(){
-                        return V;
-                }
-                //get value of E
-                public int E(){
-                        return E;
-                }
-        }
     
     public static void floydWarshall() {
             /*
@@ -216,7 +153,7 @@ public class Outlab03 {
     }
     
      //Kruskal’s Algorithm to find the minimum spanning tree for a weighted graph
-	 public void KruskalMST(Graph G){
+	 public static void KruskalMST(Graph G){
 	        Edge T[] = new Edge[G.V];  //Contain edges of MST
 	        for (int x=0; x<G.V; ++x){
 	            T[x] = new Edge();
@@ -257,6 +194,11 @@ public class Outlab03 {
         
         public static void main(String args[]) {  
             // CODE FOR KRUSKAL ALGORITHM
+		/*
+		help from:
+			Barnwal , Aashish. “Greedy Algorithms | Set 2 (Kruskal's Minimum Spanning Tree Algorithm).”
+			GeeksforGeeks, GreeksforGeeks, 17 Oct. 2017, www.geeksforgeeks.org/greedy-algorithms-set-2-kruskals-minimum-spanning-tree-mst/. 
+		*/
             int V = 6;  // Number of vertices in graph
 	     int E = 8;  // Number of edges in graph
 	     Graph graph = new Graph(V, E);
@@ -358,3 +300,67 @@ public class Outlab03 {
             floydWarshall();
         }
 }
+
+
+
+    class Edge implements Comparable<Edge> { //queue for edges 
+        int u; //start point
+        int v; //end point
+        int weight; //weight of edge
+        public int compareTo(Edge compareEdge) {
+            return this.weight-compareEdge.weight;
+        }
+    }
+
+    class Cluster{ 
+        int parent;
+        int height;
+
+            //get cluster
+            public static int find(Cluster clusters[], int x){
+                if (clusters[x].parent != x){
+                    clusters[x].parent = find(clusters, clusters[x].parent);
+                }
+                return clusters[x].parent;
+            }
+
+            //Merge two clusters together
+             public static void Merge(Cluster cluster[], int x, int y){
+                int u = find(cluster, x); //C(u)
+                int v = find(cluster, y); //C(v)
+
+                if (cluster[u].height > cluster[v].height){ //if C(u) > C(v)
+                    cluster[v].parent = u;
+                }
+                else if (cluster[u].height < cluster[v].height){ //if C(u) < C(v)
+                    cluster[u].parent = v;
+                }
+                else{ //if C(u) = C(v)
+                    cluster[v].parent = u;
+                    cluster[u].height++;
+                }
+            }
+        }
+
+        class Graph{
+                static int V; //number of vertices
+                int E; //number of edges 
+                static Edge edges[]; 
+
+            public Graph(int n, int m) {
+                V=n; //number of vertices 
+                E=m; //number of edges
+                edges = new Edge[E]; 
+                for(int x = 0; x < E; ++x){
+                        edges[x] = new Edge(); 
+                }
+            }
+            //get value of V
+                public int V(){
+                        return V;
+                }
+                //get value of E
+                public int E(){
+                        return E;
+                }
+        }
